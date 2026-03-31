@@ -1,1 +1,1 @@
-##Simulating flow over an airfoil using Nektar++##
+This repository contains the configuration files, meshes, and post-processing scripts for performing high-fidelity incompressible flow simulations over the Avistar airfoil using Nektar++. It also contains a comparison of the spectral/hp element results against experimental data, XFOIL, and RANS (STAR-CCM+) results.
