@@ -1,0 +1,47 @@
+<NEKTAR>
+    <MESHING>
+        <INFORMATION>
+            <I PROPERTY="CADFile" VALUE="avistar2d.stp" />
+            <I PROPERTY="MeshType" VALUE="2DBndLayer" />
+        </INFORMATION>
+        <PARAMETERS>
+            <P PARAM="MinDelta" VALUE="0.1" />
+            <P PARAM="MaxDelta" VALUE="2.0" />
+            <P PARAM="EPS" VALUE="0.1" />
+            <P PARAM="Order" VALUE="5" />
+
+            <!-- Surfaces -->
+            <!--  1: bottom -->
+            <!--  2: outflow -->
+            <!--  3: top -->
+            <!--  4: inflow -->
+            <!--  5-6: airfoil (check FreeCAD to get the numbers, just click in the surfaces and see the print info in the output window) -->
+            <P PARAM="BndLayerSurfaces" VALUE="5,6" /> 
+            <P PARAM="BndLayerThickness" VALUE="0.05" />
+            <P PARAM="BndLayerLayers" VALUE="8" />
+            <P PARAM="BndLayerProgression" VALUE="1.5" />
+        </PARAMETERS>
+        <REFINEMENT>
+            <LINE>
+                <X1>-0.2</X1>
+                <Y1>0</Y1>
+                <Z1>0</Z1>
+                <X2>4.3</X2>
+                <Y2>0</Y2>
+                <Z2>0</Z2>
+                <R>0.35</R>
+                <D>0.12</D>
+            </LINE>
+            <LINE>
+                <X1>-0.5</X1>
+                <Y1>0</Y1>
+                <Z1>0</Z1>
+                <X2>5</X2>
+                <Y2>0</Y2>
+                <Z2>0</Z2>
+                <R>1.5</R>
+                <D>0.35</D>
+            </LINE>
+        </REFINEMENT>
+    </MESHING>
+</NEKTAR>

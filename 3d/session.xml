@@ -1,0 +1,115 @@
+<NEKTAR>
+  <EXPANSIONS>
+    <E COMPOSITE="C[]" NUMMODES="6" TYPE="MODIFIED"
+    FIELDS="u,v,w" />
+    <E COMPOSITE="C[]" NUMMODES="5" TYPE="MODIFIEDQUADPLUS1"
+    FIELDS="p" />
+  </EXPANSIONS>
+  <CONDITIONS>
+    <SOLVERINFO>
+      <I PROPERTY="EQTYPE" VALUE="" />
+      <I PROPERTY="SolverType" VALUE="" />
+      <I PROPERTY="EvolutionOperator" VALUE="" />
+      <I PROPERTY="Projection" VALUE="" />
+      <I PROPERTY="SpectralVanishingViscosity" VALUE="DGKernel" />
+      <I PROPERTY="GlobalSysSoln"
+        VALUE="XxtMultiLevelStaticCond" />
+      <I PROPERTY="UseFFT" VALUE="FFTW" />
+      <I PROPERTY="Homogeneous" VALUE="1D" />
+    </SOLVERINFO>
+    <TIMEINTEGRATIONSCHEME>
+      <METHOD> IMEX </METHOD>
+      <ORDER> 2 </ORDER>
+    </TIMEINTEGRATIONSCHEME>
+    <PARAMETERS>
+      <!-- Time step -->
+      <P>TimeStep = </P>
+      <!-- Number of steps for the simulation ~ Final Time -->
+      <P>NumSteps = </P>
+      <!-- Number of steps to write the intermediate results -->
+      <P>IO_CheckSteps = </P>
+      <!-- Number of steps to print information -->
+      <P>IO_InfoSteps = </P>
+      <!-- Number of steps to print CFL number  -->
+      <P>IO_CFLSteps = </P>
+      <!-- Number of steps to calculate the Aero forces -->
+      <P>AeroForcesSteps = </P>
+      <!-- Number of Fourier modes (*2) in the z direction -->
+      <P>HomModesZ = 8</P>
+      <!-- Length of the domain in the z direction -->
+      <P>LZ = 0.25</P>
+      <!-- Reynolds number -->
+      <P>Re = 402100</P>
+      <!-- Free stream velocity -->
+      <P>U = 1.0</P>
+      <!-- Length of the airfoil -->
+      <P>L = 1.0</P>
+      <!-- Kinematic viscosity -->
+      <P>Kinvis = U * L / Re</P>
+      <!-- Angle of attack -->
+      <P>alpha_deg = </P>
+      <P>alpha_rad = </P>
+      <!-- Free stream velocity components -->
+      <P>u_inf = </P>
+      <P>v_inf = </P>
+    </PARAMETERS>
+    <VARIABLES>
+      <V ID="0">u</V>
+      <V ID="1">v</V>
+      <V ID="2">w</V>
+      <V ID="3">p</V>
+    </VARIABLES>
+    <BOUNDARYREGIONS>
+      <!-- Inflow -->
+      <B ID="1">C[]</B>
+      <!-- Far Field -->
+      <B ID="2">C[]</B>
+      <!-- Outflow -->
+      <B ID="3">C[]</B>
+      <!-- Airfoil wall-->
+      <B ID="4">C[]</B>
+    </BOUNDARYREGIONS>
+    <BOUNDARYCONDITIONS>
+      <!-- Inflow and Far Field -->
+      <REGION REF="1">
+        <D VAR="u" VALUE="u_inf" />
+        <D VAR="v" VALUE="v_inf" />
+        <D VAR="w" VALUE="0" />
+        <N VAR="p" USERDEFINEDTYPE="H" VALUE="0" />
+      </REGION>
+      <REGION REF="2">
+        <D VAR="u" VALUE="u_inf" />
+        <D VAR="v" VALUE="v_inf" />
+        <D VAR="w" VALUE="0" />
+        <N VAR="p" USERDEFINEDTYPE="H" VALUE="0" />
+      </REGION>
+      <!-- outflow -->
+      <REGION REF="3">
+        <N VAR="u" USERDEFINEDTYPE="HOutflow" VALUE="0" />
+        <N VAR="v" USERDEFINEDTYPE="HOutflow" VALUE="0" />
+        <N VAR="w" USERDEFINEDTYPE="HOutflow" VALUE="0" />
+        <D VAR="p" USERDEFINEDTYPE="HOutflow" VALUE="0" />
+      </REGION>
+      <!-- Airfoil wall -->
+      <REGION REF="4">
+        <D VAR="u" VALUE="0" />
+        <D VAR="v" VALUE="0" />
+        <D VAR="w" VALUE="0" />
+        <N VAR="p" USERDEFINEDTYPE="H" VALUE="0" />
+      </REGION>
+    </BOUNDARYCONDITIONS>
+    <!-- Specify the initial condition -->
+    <FUNCTION NAME="InitialConditions">
+        <F VAR="u,v,p" FILE="" />
+        <E VAR="w" VALUE="0.001 * awgn(1.)" />
+    </FUNCTION>
+  </CONDITIONS>
+  <!-- Filter to calculate the Aero forces -->
+  <FILTERS>
+    <FILTER TYPE="AeroForces">
+      <PARAM NAME="OutputFile">AeroForces</PARAM>
+      <PARAM NAME="OutputFrequency">AeroForcesSteps</PARAM>
+      <PARAM NAME="Boundary">B[]</PARAM>
+    </FILTER>
+  </FILTERS>
+</NEKTAR>
